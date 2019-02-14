@@ -18,6 +18,43 @@ The first step is to install in your project:
 ```
 npm install --save react-navigation
 ```
+Next, install react-native-gesture-handler. If you’re using Expo you don’t need to do anything here, it’s included in the SDK. Otherwise:
+```
+npm install --save react-native-gesture-handler
+```
+Then Link all native dependencies:
+```
+react-native link react-native-gesture-handler
+```
+No additional steps are required for iOS.
+
+To finalise installation of react-native-gesture-handler for Android, be sure to make the necessary modifications to MainActivity.java:
+```
+package com.reactnavigation.example;
+
+import com.facebook.react.ReactActivity;
++ import com.facebook.react.ReactActivityDelegate;
++ import com.facebook.react.ReactRootView;
++ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+
+public class MainActivity extends ReactActivity {
+
+  @Override
+  protected String getMainComponentName() {
+    return "Example";
+  }
+
++  @Override
++  protected ReactActivityDelegate createReactActivityDelegate() {
++    return new ReactActivityDelegate(this, getMainComponentName()) {
++      @Override
++      protected ReactRootView createRootView() {
++       return new RNGestureHandlerEnabledRootView(MainActivity.this);
++      }
++    };
++  }
+}
+```
 
 Then you can quickly create an app with a home screen and a profile screen:
 
